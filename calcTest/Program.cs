@@ -9,7 +9,7 @@
             {
                 Console.Write("please input a age : ");
                 int age = int.Parse(Console.ReadLine());
-                Console.WriteLine($"after ten years ago your age is {(age+10).ToString()}");
+                Console.WriteLine($"after ten years ago your age is {(age + 10).ToString()}");
             }
             catch
             {
@@ -17,8 +17,8 @@
             }
 
             Console.WriteLine("\n\n----- test 02 calc circal area and length -----");
-            Console.WriteLine($"half 5 circal ares is {Math.PI*5*5}");
-            Console.WriteLine($"half 5 circal length is {2*Math.PI*5}");
+            Console.WriteLine($"half 5 circal ares is {Math.PI * 5 * 5}");
+            Console.WriteLine($"half 5 circal length is {2 * Math.PI * 5}");
 
             Console.WriteLine("\n\n----- test 03 calc three subject score avg and  sub -----");
             int cScore = 80;
@@ -27,13 +27,13 @@
             Console.WriteLine($"chinese subject score is {cScore}");
             Console.WriteLine($"math subject score is {mScore}");
             Console.WriteLine($"english subject score is {eScore}");
-            Console.WriteLine($"sub three socre is {cScore+mScore+eScore}");
-            Console.WriteLine($"avg three socre is {(cScore + mScore + eScore)/3}");
+            Console.WriteLine($"sub three socre is {cScore + mScore + eScore}");
+            Console.WriteLine($"avg three socre is {(cScore + mScore + eScore) / 3}");
 
             Console.WriteLine("\n\n----- test 04 calc goods price -----");
             Console.WriteLine("shopping  the t-shirt price is 285,pant price is 720,tim bought 2 t-shirts and 3 pants,calc how much must pay and make 3.8 discount");
-            Console.WriteLine($"2 ts and 3 pant total price is {285*2+720*3}");
-            Console.WriteLine($"make 3.8 discount total price is {(285*2+720*3)*0.38}");
+            Console.WriteLine($"2 ts and 3 pant total price is {285 * 2 + 720 * 3}");
+            Console.WriteLine($"make 3.8 discount total price is {(285 * 2 + 720 * 3) * 0.38}");
 
             Console.WriteLine("\n\n----- test 05 make some calc -----");
             Console.WriteLine("int a = 10;\tint b = 20;");
@@ -66,7 +66,7 @@
             Console.WriteLine("\n\n----- test 07 switch 987652 seconds  to x days n hours n mins n second -----");
             int second = 987652;
             int dd = second / 86400/*(60 * 60 * 24)*/;
-            int hh = second % 86400 /60/60;
+            int hh = second % 86400 / 60 / 60;
             int mm = second % 3600 / 60;
             int ss = second % 60;
             Console.WriteLine($"987652 seconds is \n{dd} days\n{hh} hours\n{mm} mins\n{ss} seconds");
@@ -93,6 +93,7 @@
                 ii = 100;
             }
             Console.WriteLine(ii);
+            //this is vscode change
         }
     }
 }
