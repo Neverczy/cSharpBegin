@@ -70,6 +70,29 @@
             int mm = second % 3600 / 60;
             int ss = second % 60;
             Console.WriteLine($"987652 seconds is \n{dd} days\n{hh} hours\n{mm} mins\n{ss} seconds");
+            //1000110000 1025+32+16 1057+16 1073 wrong
+            //1000010 1+32 33
+
+            //99^33 
+            //1100011
+            //0100001
+            //1000010 =66
+
+            //76 | 85
+            //1001100
+            //1010101
+            //1011101 64+16+8+4+1 93
+
+            int ii = 0;
+            if (false)
+            {
+                ii = 20;
+            }
+            else
+            {
+                ii = 100;
+            }
+            Console.WriteLine(ii);
         }
     }
 }
