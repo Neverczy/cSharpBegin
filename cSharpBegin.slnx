@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="begin01/begin01.csproj" />
   <Project Path="calcTest/calcTest.csproj" />
+  <Project Path="condition/condition.csproj" />
   <Project Path="ExceptionCatch/ExceptionCatch.csproj" />
 </Solution>
