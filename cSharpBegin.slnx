@@ -3,4 +3,6 @@
   <Project Path="calcTest/calcTest.csproj" />
   <Project Path="condition/condition.csproj" />
   <Project Path="ExceptionCatch/ExceptionCatch.csproj" />
+  <Project Path="switchcase/switchcase.csproj" Id="048e545b-cedf-4f7c-a799-943d1e3e9815" />
+  <Project Path="whileCricle/whileCricle.csproj" Id="4e942faf-90ae-498c-ac59-946f66d1de4f" />
 </Solution>
