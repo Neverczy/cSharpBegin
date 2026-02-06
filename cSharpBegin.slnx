@@ -2,7 +2,11 @@
   <Project Path="begin01/begin01.csproj" />
   <Project Path="calcTest/calcTest.csproj" />
   <Project Path="condition/condition.csproj" />
+  <Project Path="consoleFunc/consoleFunc.csproj" Id="a382921f-53e6-4427-9e7d-5936ddb22d91" />
+  <Project Path="consoleTest/consoleTest.csproj" Id="a5c5564b-e78b-48d8-b158-da610235ac4d" />
   <Project Path="ExceptionCatch/ExceptionCatch.csproj" />
+  <Project Path="forCricle/forCricle.csproj" Id="3bc33d5e-85b5-4091-80dd-4e7ce08fd9da" />
+  <Project Path="randomCreate/randomCreate.csproj" Id="8f0855f7-1776-4b5b-9aef-43ef8ad261d6" />
   <Project Path="switchcase/switchcase.csproj" Id="048e545b-cedf-4f7c-a799-943d1e3e9815" />
   <Project Path="whileCricle/whileCricle.csproj" Id="4e942faf-90ae-498c-ac59-946f66d1de4f" />
 </Solution>
