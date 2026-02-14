@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime;
-
+﻿
 namespace hSavePGane
 {
     struct Boss
@@ -13,7 +11,9 @@ namespace hSavePGane
         public string icon;
         public int maxAtk;
         public int minAtk;
+        public int def;
         public int dodge;
+        public bool isFight;
     }
     internal class Program
     {
@@ -126,22 +126,32 @@ namespace hSavePGane
             Boss atanth;
             atanth.name = "阿坦斯";
             
-            atanth.maxHp = 1000;
-            atanth.curHp = 1000;
+            atanth.maxHp = 888;
+            atanth.curHp = 888;
             atanth.positionX = r.Next(4 / 2, (windowWidth - 2 - 4) / 2 + 1) * 2;
             atanth.positionY = r.Next(2, windowHeight - 7);
             atanth.icon = "■";
             atanth.maxAtk = r.Next(15, 26);
             atanth.minAtk = r.Next(5, 11);
-            atanth.dodge = r.Next(10, 36);
+            atanth.dodge = r.Next(10, 29);
+            atanth.isFight = false;
             #endregion
             #region initPlayerStat
-            int pPX = 2;
-            int pPy = 1;
+            Boss datith;
+            datith.name = "达狄斯";
+            datith.maxHp = 200;
+            datith.curHp = 200;
+            datith.positionX = 2;
+            datith.positionY = 1;
+            datith.icon = "●";
+            datith.maxAtk = r.Next(28, 39);
+            datith.minAtk = r.Next(14, 19);
+            datith.def = r.Next(5, 11);
+            datith.isFight = false;
             //----
             Console.ForegroundColor = myYellow;
-            Console.SetCursorPosition(pPX, pPy);
-            Console.Write("■");
+            Console.SetCursorPosition(datith.positionX, datith.positionY);
+            Console.Write(datith.icon);
             Console.ForegroundColor = myWhite;
             #endregion
             while (true) 
@@ -154,65 +164,176 @@ namespace hSavePGane
                     Console.ForegroundColor = myWhite;
                 }
                 char ipt = Console.ReadKey(true).KeyChar;
-                Console.SetCursorPosition(pPX, pPy);
-                Console.Write("  ");
-                switch (ipt)
+                if (datith.isFight && atanth.isFight)
                 {
-                    case 'W':
-                    case 'w':
-                        pPy -= 1;
-                        if (pPy < 1)
+                    if (ipt == 'F' || ipt == 'f')
+                    {
+                        int datithDmg = r.Next(datith.minAtk, datith.maxAtk + 1);
+                        int atanthDmg = r.Next(atanth.minAtk, atanth.maxAtk + 1);
+                        int isDodged = r.Next(1, 101);
+                        int datithRDmg = isDodged <= atanth.dodge ? 0 : datithDmg;
+                        int atanthRDmg = atanthDmg - datith.def < 0 ? 0 : atanthDmg - datith.def;
+                        atanth.curHp = atanth.curHp - datithRDmg < 0 ? 0 : atanth.curHp - datithRDmg;
+                        datith.curHp = datith.curHp - atanthRDmg < 0 ? 0 : datith.curHp - atanthRDmg;                       
+                        if (datith.curHp == 0)
                         {
-                            pPy = 1;
-                        }
-                        else if(pPy == atanth.positionY && pPX == atanth.positionX && atanth.curHp > 0)
-                        {
-                            pPy += 1;
-                        }
-                        break;
-                    case 'S':
-                    case 's':
-                        pPy += 1;
-                        if(pPy > windowHeight - 7)
-                        {
-                            pPy = windowHeight - 7;
-                        }
-                        else if (pPy == atanth.positionY && pPX == atanth.positionX && atanth.curHp > 0)
-                        {
-                            pPy -= 1;
-                        }
-                        break;
-                    case 'A':
-                    case 'a':
-                        pPX -= 2;
-                        if (pPX < 2)
-                        {
-                            pPX = 2; 
-                        }
-                        else if(pPX == atanth.positionX && pPy == atanth.positionY && atanth.curHp > 0)
-                        {
-                            pPX += 2;
-                        }
-                        break;
-                    case 'D':
-                    case 'd':
-                        pPX += 2;
-                        if (pPX > windowWidth - 2 - 2)
-                        {
-                            pPX = windowWidth - 2 - 2;
-                        }
-                        else if(pPX == atanth.positionX && pPy == atanth.positionY && atanth.curHp > 0)
-                        {
-                            pPX -= 2;
-                        }
+                            Console.ForegroundColor = myRed;
+                            Console.SetCursorPosition(2, windowHeight - 5);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 5);
+                            Console.Write($"{datith.name}已死亡,游戏结束!!");
+                            Console.ForegroundColor = myYellow;
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp}");
+                            Console.ForegroundColor = myGreen;
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp}");
+                            Console.ForegroundColor = myRed;
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write("按<任意键>键返回主菜单");
+                            Console.ForegroundColor = myWhite;
+                            char iEt = Console.ReadKey(true).KeyChar;
+                            gameScene = 0;
                             break;
-                    default:
-                        break;
+                        }
+                        else if(atanth.curHp == 0)
+                        {
+                            Console.ForegroundColor = myGreen;
+                            Console.SetCursorPosition(2, windowHeight - 5);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 5);
+                            Console.Write($"{atanth.name}已死亡,恭喜你击败了{atanth.name}!!");
+                            Console.ForegroundColor = myYellow;
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp}");
+                            Console.ForegroundColor = myGreen;
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp}");
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write("请前往营救公主!!");
+                            Console.ForegroundColor = myWhite;
+                            Console.SetCursorPosition(atanth.positionX, atanth.positionY);
+                            Console.Write("  ");
+                            datith.isFight = false;
+                            atanth.isFight = false;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = myYellow;
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 4);
+                            Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp} 攻击力:{datith.minAtk}-{datith.maxAtk} 防御力:{datith.def}");
+                            Console.ForegroundColor = myGreen;
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 3);
+                            Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp} 攻击力:{atanth.minAtk}-{atanth.maxAtk} 闪避:{atanth.dodge}%");
+                            Console.ForegroundColor = myWhite;
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write("                                              ");
+                            Console.SetCursorPosition(2, windowHeight - 2);
+                            Console.Write($"{datith.name}->{atanth.name}:{(datithRDmg == 0 ? "闪避" : datithRDmg)}\t{atanth.name}->{datith.name}:{atanthRDmg}");
+                        }
+                    }
                 }
-                Console.ForegroundColor = myYellow;
-                Console.SetCursorPosition(pPX, pPy);
-                Console.Write("■");
-                Console.ForegroundColor = myWhite;
+                else
+                {
+                    Console.SetCursorPosition(datith.positionX, datith.positionY);
+                    Console.Write("  ");
+                    switch (ipt)
+                    {
+                        case 'W':
+                        case 'w':
+                            datith.positionY -= 1;
+                            if (datith.positionY < 1)
+                            {
+                                datith.positionY = 1;
+                            }
+                            else if (datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0)
+                            {
+                                datith.positionY += 1;
+                            }
+                            break;
+                        case 'S':
+                        case 's':
+                            datith.positionY += 1;
+                            if (datith.positionY > windowHeight - 7)
+                            {
+                                datith.positionY = windowHeight - 7;
+                            }
+                            else if (datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0)
+                            {
+                                datith.positionY -= 1;
+                            }
+                            break;
+                        case 'A':
+                        case 'a':
+                            datith.positionX -= 2;
+                            if (datith.positionX < 2)
+                            {
+                                datith.positionX = 2;
+                            }
+                            else if (datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                            {
+                                datith.positionX += 2;
+                            }
+                            break;
+                        case 'D':
+                        case 'd':
+                            datith.positionX += 2;
+                            if (datith.positionX > windowWidth - 2 - 2)
+                            {
+                                datith.positionX = windowWidth - 2 - 2;
+                            }
+                            else if (datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                            {
+                                datith.positionX -= 2;
+                            }
+                            break;
+                        case 'F':
+                        case 'f':
+                            if (((datith.positionY == atanth.positionY && (datith.positionX == atanth.positionX - 2 || datith.positionX == atanth.positionX + 2))
+                                || (datith.positionX == atanth.positionX && (datith.positionY == atanth.positionY - 1 || datith.positionY == atanth.positionY + 1)))
+                                && atanth.curHp > 0
+                                )
+                            {
+                                datith.isFight = true;
+                                atanth.isFight = true;
+                                Console.SetCursorPosition(2, windowHeight - 5);
+                                Console.ForegroundColor = myRed;
+                                Console.Write("进入战斗!,按<F>键继续.");
+                                Console.SetCursorPosition(2, windowHeight - 4);
+                                Console.ForegroundColor = myYellow;
+                                Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp} 攻击力:{datith.minAtk}-{datith.maxAtk} 防御力:{datith.def}");
+                                Console.SetCursorPosition(2, windowHeight - 3);
+                                Console.ForegroundColor = myGreen;
+                                Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp} 攻击力:{atanth.minAtk}-{atanth.maxAtk} 闪避:{atanth.dodge}%");
+                                Console.ForegroundColor = myWhite;
+                            }
+
+                            break;
+                        default:
+                            break;
+                    }
+                    Console.ForegroundColor = myYellow;
+                    Console.SetCursorPosition(datith.positionX, datith.positionY);
+                    Console.Write(datith.icon);
+                    Console.ForegroundColor = myWhite;
+                } 
             }
             ;
         }
