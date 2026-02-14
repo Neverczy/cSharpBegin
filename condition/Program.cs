@@ -129,6 +129,5 @@ class Program
 
         System.Console.WriteLine("test08 write result----------");
         //  6
-
     }
 }
