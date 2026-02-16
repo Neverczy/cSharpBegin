@@ -24,6 +24,8 @@ namespace hSavePGane
         static ConsoleColor myWhite = ConsoleColor.White;
         static ConsoleColor myGreen = ConsoleColor.Green;
         static ConsoleColor myYellow = ConsoleColor.Yellow;
+        static ConsoleColor myBlue = ConsoleColor.Blue;
+        static bool gameResult = false;
         static void Main(string[] args)
         {
             GameInit();
@@ -133,7 +135,7 @@ namespace hSavePGane
             atanth.icon = "■";
             atanth.maxAtk = r.Next(15, 26);
             atanth.minAtk = r.Next(5, 11);
-            atanth.dodge = r.Next(10, 29);
+            atanth.dodge = r.Next(12, 26);
             atanth.isFight = false;
             #endregion
             #region initPlayerStat
@@ -144,15 +146,23 @@ namespace hSavePGane
             datith.positionX = 2;
             datith.positionY = 1;
             datith.icon = "●";
-            datith.maxAtk = r.Next(28, 39);
-            datith.minAtk = r.Next(14, 19);
-            datith.def = r.Next(5, 11);
+            datith.maxAtk = r.Next(30, 41);
+            datith.minAtk = r.Next(16, 23);
+            datith.def = r.Next(6, 13);
             datith.isFight = false;
             //----
             Console.ForegroundColor = myYellow;
             Console.SetCursorPosition(datith.positionX, datith.positionY);
             Console.Write(datith.icon);
             Console.ForegroundColor = myWhite;
+            #endregion
+
+            #region initPrincess
+            Boss princess;
+            princess.name = "普林塞斯";
+            princess.positionX = 0;
+            princess.positionY = 0;
+            princess.icon = "●";
             #endregion
             while (true) 
             {
@@ -163,7 +173,14 @@ namespace hSavePGane
                     Console.Write(atanth.icon);
                     Console.ForegroundColor = myWhite;
                 }
-                char ipt = Console.ReadKey(true).KeyChar;
+                else
+                {
+                    Console.ForegroundColor = myBlue;
+                    Console.SetCursorPosition(princess.positionX, princess.positionY);
+                    Console.Write(princess.icon);
+                    Console.ForegroundColor = myBlue;
+                }
+                    char ipt = Console.ReadKey(true).KeyChar;
                 if (datith.isFight && atanth.isFight)
                 {
                     if (ipt == 'F' || ipt == 'f')
@@ -181,7 +198,7 @@ namespace hSavePGane
                             Console.SetCursorPosition(2, windowHeight - 5);
                             Console.Write("                                              ");
                             Console.SetCursorPosition(2, windowHeight - 5);
-                            Console.Write($"{datith.name}已死亡,游戏结束!!");
+                            Console.Write($"{datith.name}已死亡,游戏失败!!");
                             Console.ForegroundColor = myYellow;
                             Console.SetCursorPosition(2, windowHeight - 4);
                             Console.Write("                                              ");
@@ -196,10 +213,11 @@ namespace hSavePGane
                             Console.SetCursorPosition(2, windowHeight - 2);
                             Console.Write("                                              ");
                             Console.SetCursorPosition(2, windowHeight - 2);
-                            Console.Write("按<任意键>键返回主菜单");
+                            Console.Write("按<任意键>结束");
+                            gameResult = false;
                             Console.ForegroundColor = myWhite;
                             char iEt = Console.ReadKey(true).KeyChar;
-                            gameScene = 0;
+                            gameScene = 2;
                             break;
                         }
                         else if(atanth.curHp == 0)
@@ -229,6 +247,8 @@ namespace hSavePGane
                             Console.Write("  ");
                             datith.isFight = false;
                             atanth.isFight = false;
+                            princess.positionX = r.Next(4 / 2, (windowWidth - 2 - 4) / 2 + 1) * 2;
+                            princess.positionY = r.Next(2, windowHeight - 7);
                         }
                         else
                         {
@@ -263,7 +283,8 @@ namespace hSavePGane
                             {
                                 datith.positionY = 1;
                             }
-                            else if (datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0)
+                            else if ((datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0 )
+                                ||(datith.positionY == princess.positionY && datith.positionX == princess.positionX) )
                             {
                                 datith.positionY += 1;
                             }
@@ -275,7 +296,8 @@ namespace hSavePGane
                             {
                                 datith.positionY = windowHeight - 7;
                             }
-                            else if (datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0)
+                            else if ((datith.positionY == atanth.positionY && datith.positionX == atanth.positionX && atanth.curHp > 0)
+                                || (datith.positionY == princess.positionY && datith.positionX == princess.positionX))
                             {
                                 datith.positionY -= 1;
                             }
@@ -287,7 +309,8 @@ namespace hSavePGane
                             {
                                 datith.positionX = 2;
                             }
-                            else if (datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                            else if ((datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                                || (datith.positionX == princess.positionX && datith.positionY == princess.positionY))
                             {
                                 datith.positionX += 2;
                             }
@@ -299,30 +322,57 @@ namespace hSavePGane
                             {
                                 datith.positionX = windowWidth - 2 - 2;
                             }
-                            else if (datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                            else if ((datith.positionX == atanth.positionX && datith.positionY == atanth.positionY && atanth.curHp > 0)
+                                || (datith.positionX == princess.positionX && datith.positionY == princess.positionY))
                             {
                                 datith.positionX -= 2;
                             }
                             break;
                         case 'F':
                         case 'f':
-                            if (((datith.positionY == atanth.positionY && (datith.positionX == atanth.positionX - 2 || datith.positionX == atanth.positionX + 2))
+                            if ((((datith.positionY == atanth.positionY && (datith.positionX == atanth.positionX - 2 || datith.positionX == atanth.positionX + 2))
                                 || (datith.positionX == atanth.positionX && (datith.positionY == atanth.positionY - 1 || datith.positionY == atanth.positionY + 1)))
-                                && atanth.curHp > 0
+                                && atanth.curHp > 0)
+                                ||(((datith.positionY == princess.positionY && (datith.positionX == princess.positionX - 2 || datith.positionX == princess.positionX + 2))
+                                || (datith.positionX == princess.positionX && (datith.positionY == princess.positionY - 1 || datith.positionY == princess.positionY + 1))))
                                 )
                             {
-                                datith.isFight = true;
-                                atanth.isFight = true;
-                                Console.SetCursorPosition(2, windowHeight - 5);
-                                Console.ForegroundColor = myRed;
-                                Console.Write("进入战斗!,按<F>键继续.");
-                                Console.SetCursorPosition(2, windowHeight - 4);
-                                Console.ForegroundColor = myYellow;
-                                Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp} 攻击力:{datith.minAtk}-{datith.maxAtk} 防御力:{datith.def}");
-                                Console.SetCursorPosition(2, windowHeight - 3);
-                                Console.ForegroundColor = myGreen;
-                                Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp} 攻击力:{atanth.minAtk}-{atanth.maxAtk} 闪避:{atanth.dodge}%");
-                                Console.ForegroundColor = myWhite;
+                                if(atanth.curHp > 0)
+                                {
+                                    datith.isFight = true;
+                                    atanth.isFight = true;
+                                    Console.SetCursorPosition(2, windowHeight - 5);
+                                    Console.ForegroundColor = myRed;
+                                    Console.Write("进入战斗!,按<F>键继续.");
+                                    Console.SetCursorPosition(2, windowHeight - 4);
+                                    Console.ForegroundColor = myYellow;
+                                    Console.Write($"<{datith.name}> 生命值:{datith.curHp}/{datith.maxHp} 攻击力:{datith.minAtk}-{datith.maxAtk} 防御力:{datith.def}");
+                                    Console.SetCursorPosition(2, windowHeight - 3);
+                                    Console.ForegroundColor = myGreen;
+                                    Console.Write($"<{atanth.name}> 生命值:{atanth.curHp}/{atanth.maxHp} 攻击力:{atanth.minAtk}-{atanth.maxAtk} 闪避:{atanth.dodge}%");
+                                    Console.ForegroundColor = myWhite;
+                                }else
+                                {
+                                    Console.SetCursorPosition(2, windowHeight - 5);
+                                    Console.Write("                                              ");
+                                    Console.SetCursorPosition(2, windowHeight - 4);
+                                    Console.Write("                                              ");
+                                    Console.SetCursorPosition(2, windowHeight - 3);
+                                    Console.Write("                                              ");
+                                    Console.SetCursorPosition(2, windowHeight - 2);
+                                    Console.Write("                                              ");
+                                    Console.SetCursorPosition(2, windowHeight - 5);
+                                    Console.ForegroundColor = myBlue;
+                                    Console.Write($"营救公主<{princess.name}>成功!");
+                                    gameResult = true;
+                                    Console.ForegroundColor = myGreen;
+                                    Console.SetCursorPosition(2, windowHeight - 4);
+                                    Console.Write("按<任意键>结束");
+                                    Console.ForegroundColor = myWhite;
+                                    char iEt = Console.ReadKey(true).KeyChar;
+                                    gameScene = 2;
+                                    return;
+                                }
                             }
 
                             break;
@@ -339,7 +389,52 @@ namespace hSavePGane
         }
         static void GameEnd()
         {
-            Console.WriteLine("this is game end scene");
+            int opt = 0;
+            Console.SetCursorPosition(windowWidth / 2 - 4, 5);
+            Console.Write("GameOver");
+
+            Console.SetCursorPosition(windowWidth / 2 - 4, 7);
+            Console.Write(gameResult?"英雄救美":"惨遭屠杀");
+            while (true)
+            {
+                Console.SetCursorPosition(windowWidth / 2 - 6, 10);
+                Console.ForegroundColor = opt == 0 ? myRed : myWhite;
+                Console.Write("回到开始界面");
+                Console.ForegroundColor = opt == 1 ? myRed : myWhite;
+                Console.SetCursorPosition(windowWidth / 2 - 4, 12);
+                Console.Write("退出游戏");
+                Console.ForegroundColor = myWhite;
+                Console.SetCursorPosition(windowWidth - 42, windowHeight - 1);
+                Console.Write("W : 上一选项 , S : 下一选项 , F : 确认");
+                char ipt = Console.ReadKey(true).KeyChar;
+                switch (ipt)
+                {
+                    case 'W':
+                    case 'w':
+                        opt -= 1;
+                        opt = opt < 0 ? 0 : opt;
+                        break;
+                    case 'S':
+                    case 's':
+                        opt += 1;
+                        opt = opt > 1 ? 1 : opt;
+                        break;
+                    case 'F':
+                    case 'f':
+                        if (opt == 0)
+                        {
+                            gameScene = 0;
+                            return;
+                        }
+                        else if (opt == 1)
+                        {
+                            Environment.Exit(0);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
